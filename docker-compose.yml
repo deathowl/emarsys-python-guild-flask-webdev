@@ -5,6 +5,8 @@ flaskapp:
     - redis:redis
   volumes:
     - .:/usr/src
+  environment:
+    - APP_SECRET=mydevsecret
   expose:
     - "3031"
   command: uwsgi --ini /usr/src/app.ini

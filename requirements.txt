@@ -7,3 +7,4 @@ flask-sqlalchemy
 celery
 flask-restful
 uwsgi
+alembic
