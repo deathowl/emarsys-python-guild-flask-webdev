@@ -1,0 +1,9 @@
+pytest
+flask
+redis
+flask-admin
+sqlalchemy
+flask-sqlalchemy
+celery
+flask-restful
+uwsgi
