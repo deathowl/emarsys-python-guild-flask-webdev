@@ -1,0 +1,459 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+
+      <div class="slides">
+          <section class="" data-id="9f3a565e7277ee3846c821aaf8dead61">
+              <h1>Python Guild</h1>
+              <div>2018.03.21</div>
+              <div>
+                  <br/>
+              </div>
+              <div>Web development with Flask</div>
+          </section>
+          <section class="" data-id="18d884db154118a128d022317559a71d">
+              <h2>Flask is simple</h2>
+              <div>
+                  <pre>
+                      <span class="ig">from flask import Flask
+      app = Flask(__name__)</span>
+
+      @app.route("/")
+      def hello():
+          return "Hello World!"
+
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="00732ca39715cd96d16d9d4bef83b529">
+              <h2>And easy to setup</h2>
+              <div>pip install flask</div>
+          </section>
+          <section class="" data-id="7f6d32f766431c0dc64cc339b0eae72a">
+              <h2>But it's also very flexible and modular</h2>
+              <div>
+                  <br/>
+              </div>
+              <div>cat requirements.txt |grep flask</div>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">flask
+      flask-admin
+                      <br/>flask-sqlalchemy
+                      <br/>flask-restful
+                      <br/>flask-wtf
+                      <br/>flask-login
+                      <br/>flask-hashing
+
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="8f4cd7d69940b95e36cea03ffac482ec">
+              <h2>Simplicity is easy to abuse</h2>
+              <div>
+                  <pre style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; width: 862.188px;">
+                      <span class="ig">from flask import Flask
+      app = Flask(__name__)</span>
+
+      @app.route("/")
+      def hello():
+          return "Hello World!"
+
+      @app.route("/user/login")
+      def login():
+          return "Hello World!"
+
+      @app.route("/user/signup")
+      def signup():
+          return "Hello World!"
+
+
+      @app.route("/video/upload")
+      def upload():
+          return "ddd"
+
+      @app.route("/Whatever")
+      def upload():
+          return "ddd"
+
+
+
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="2bf0a171381d1073d9c9eeb32973d214">
+              <h2>This can turn ugly quickly. Use blueprints!</h2>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">app.register_blueprint(home
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#aa4926;">url_prefix</span>=
+                      <span style="color:#6a8759;">'/'</span>)
+                      <br/>app.register_blueprint(user
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#aa4926;">url_prefix</span>=
+                      <span style="color:#6a8759;">'/user'</span>)
+                      <br/>app.register_blueprint(video
+                      <span style="color:#cc7832;">, </span>url_prefix
+                      <span style="font-family: &quot;DejaVu Sans Mono&quot;;">=</span>
+                      <span style="font-family: &quot;DejaVu Sans Mono&quot;; color: rgb(106, 135, 89);">'/video'</span>
+                      <span style="font-family: &quot;DejaVu Sans Mono&quot;;">)</span>
+                      <br/>
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="3562b871e463cd3e46c25d97c21179a5">
+              <h2>DB access?</h2>
+              <div>
+                  <br/>
+              </div>
+              <div>SELECT * from ??</div>
+              <div>Rather not..</div>
+              <div>
+                  <br/>
+              </div>
+              <div>Use sqlalchemy!</div>
+              <div>
+                  <br/>
+              </div>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">user = db.session.query(models.Users).filter(models.Users.name == username).first()
+                      <br/>
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="2e7240d10bb1ad91244a204292381337">
+              <h2>Create table??</h2>
+              <div>No.</div>
+              <div>
+                  <br/>
+              </div>
+              <div>Use Alembic for your migrations</div>
+              <div>
+                  <br/>
+              </div>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">ALCHEMY_URL=mysql+mysqlconnector://root:emarroot@localhost:3306/porghub APP_SECRET=mydevsecret alembic upgrade head
+                      <br/>INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+                      <br/>INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+                      <br/>INFO  [alembic.runtime.migration] Running upgrade  -&gt;
+                      <span style="color:#6897bb;">86bba768a6c8</span>, Added initial tables
+                      <br/>
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="8e34d0e8fdfa0da4221f4351c2f002ba">
+              <h2>Server?</h2>
+              <div>
+                  <br/>
+              </div>
+              <div>python app.py?&nbsp;</div>
+              <div>
+                  <br/>
+              </div>
+              <div>Werkzeug is ok for development, but for prod we might need something more heavy.</div>
+              <div>
+                  <br/>
+              </div>
+              <div>
+                  <br/>
+              </div>
+              <div>UWSGI/GUNICORN</div>
+              <div>
+                  <br/>
+              </div>
+              <div>
+                  <br/>
+              </div>
+          </section>
+          <section class="" data-id="3eb8ed0bdc2e528af8ec1d53c3eb064a">
+              <h2>Static files?</h2>
+              <div>Flask can serve static files, if you really want it, but why would you do that?</div>
+              <div>Use NGINX like you would normally</div>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">server{
+                      <br/>   listen 80;
+                      <br/>       location /static {
+                      <br/>       root /usr/src;
+                      <br/>
+                      <br/>       }
+                      <br/>   location /{
+                      <br/>      include uwsgi_params;
+                      <br/>      uwsgi_pass uwsgi:3031;
+                      <br/>
+                      <br/>      proxy_redirect     off;
+                      <br/>        proxy_set_header   Host $host;
+                      <br/>        proxy_set_header   X-Real-IP $remote_addr;
+                      <br/>        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+                      <br/>        proxy_set_header   X-Forwarded-Host $server_name;
+                      <br/>   }
+                      <br/>
+                      <br/>}
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="bb057f785230aff628551720c3db1e23">
+              <h2>With time you'll need an admin interface</h2>
+              <div>Why code, when you dont have to?</div>
+              <div>flask-admin</div>
+              <div>
+                  <br/>
+              </div>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">admin.add_view(MyModelView(models.Users
+                      <span style="color:#cc7832;">, </span>db.session
+                      <span style="color:#cc7832;">,
+                          <br/>
+                      </span>
+                      <span style="color:#cc7832;"></span>
+                      <span style="color:#aa4926;">column_list</span>=[
+                      <span style="color:#6a8759;">'id'</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">'name'</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">"description"</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">"is_active"</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">"is_admin"</span>]
+                      <span style="color:#cc7832;">,
+                          <br/>
+                      </span>
+                      <span style="color:#cc7832;"></span>
+                      <span style="color:#aa4926;">search_fields</span>=[
+                      <span style="color:#6a8759;">'username'</span>]
+                      <span style="color:#cc7832;">,
+                          <br/>
+                      </span>
+                      <span style="color:#cc7832;"></span>
+                      <span style="color:#aa4926;">form_columns</span>=[
+                      <span style="color:#6a8759;">'id'</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">'name'</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">"description"</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">"is_active"</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#6a8759;">"is_admin"</span>]))
+                      <br/>
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="c1ea9caf926abdd6e81c39526dc7d147">
+              <h2>Sessions?</h2>
+              <div>
+                  <br/>
+              </div>
+              <div>session['userid'] = 'ugly'</div>
+              <div>
+                  <br/>
+              </div>
+              <div>use flask-login</div>
+              <div>
+                  <br/>
+              </div>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">user = db.session.query(models.Users).filter(models.Users.name == username).first()
+                      <br/>
+                      <br/>
+                      <span style="color:#cc7832;">if not </span>user
+                      <span style="color:#cc7832;">or </span>user
+                      <span style="color:#cc7832;">and not </span>hashing.check_value(user.password
+                      <span style="color:#cc7832;">, </span>password
+                      <span style="color:#cc7832;">, </span>settings.SECRET):
+                      <br/>    flash(
+                      <span style="color:#6a8759;">"Failed to log you in with these credentials"</span>)
+                      <br/>
+                      <span style="color:#cc7832;">return </span>render_template(
+                      <span style="color:#6a8759;">"login.html"</span>
+                      <span style="color:#cc7832;">, </span>
+                      <span style="color:#aa4926;">form</span>=form)
+                      <br/>
+                      <br/>
+                      <span style="color:#cc7832;">else</span>:
+                      <br/>
+                      <span style="color:#808080;">#login
+                          <br/>
+                      </span>
+                      <span style="color:#808080;"></span>login_user(user)
+                      <br/>
+                      <span style="color:#cc7832;">return </span>redirect(
+                      <span style="color:#6a8759;">'//'</span>)
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="eee776718652c8e27a1161eed9f4b212">
+              <h2>Forms, and views</h2>
+              <div>Flask-wtf</div>
+              <div>Jinja2</div>
+              <div>Template inheritance</div>
+              <div>Validations</div>
+              <div>Fun</div>
+          </section>
+          <section class="" data-id="d23abea83a0bf398ddfef0f06fbbfc2d">
+              <h2>login.html</h2>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">{% extends "base.html" %}
+                      <br/>
+                      <br/>{% block container %}
+                      <br/>
+                      <br/>
+                      <span style="color:#e8bf6a;">&lt;body&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">   &lt;div </span>
+                      <span style="color:#bababa;">class = </span>
+                      <span style="color:#a5c261;">"container"</span>
+                      <span style="color:#e8bf6a;">&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">      &lt;h4&gt;</span>Register
+                      <span style="color:#e8bf6a;">&lt;/h4&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">      &lt;br&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;"></span>{% from "_formhelpers.html" import render_field %}
+                      <br/>
+                      <span style="color:#e8bf6a;">&lt;form </span>
+                      <span style="color:#bababa;">method=</span>
+                      <span style="color:#a5c261;">post </span>
+                      <span style="color:#bababa;">action=</span>
+                      <span style="color:#a5c261;">"/user/login"</span>
+                      <span style="color:#e8bf6a;">&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">         &lt;dl&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;"></span>{{render_field(form.username)}}
+                      <br/>            {{render_field(form.password)}}
+                      <br/>
+                      <span style="color:#e8bf6a;">&lt;input </span>
+                      <span style="color:#bababa;">name=</span>
+                      <span style="color:#a5c261;">_csrf_token </span>
+                      <span style="color:#bababa;">type=</span>
+                      <span style="color:#a5c261;">hidden </span>
+                      <span style="color:#bababa;">value=</span>
+                      <span style="color:#a5c261;">"{{ csrf_token() }}"</span>
+                      <span style="color:#e8bf6a;">&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">         &lt;/dl&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">         &lt;p&gt;&lt;input </span>
+                      <span style="color:#bababa;">type=</span>
+                      <span style="color:#a5c261;">submit </span>
+                      <span style="color:#bababa;">value=</span>
+                      <span style="color:#a5c261;">Login</span>
+                      <span style="color:#e8bf6a;">&gt;&lt;/p&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">      &lt;/form&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;"></span>{% if error %}
+                      <br/>
+                      <span style="color:#e8bf6a;">&lt;p </span>
+                      <span style="color:#bababa;">class=</span>
+                      <span style="color:#a5c261;">"error"</span>
+                      <span style="color:#e8bf6a;">&gt;&lt;strong&gt;</span>Error:
+                      <span style="color:#e8bf6a;">&lt;/strong&gt;</span>{{error}}
+                      <span style="color:#e8bf6a;">&lt;/p&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;"></span>{% endif %}
+                      <br/>
+                      <br/>
+                      <span style="color:#e8bf6a;">&lt;/div&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">&lt;/body&gt;
+                          <br/>
+                      </span>
+                      <span style="color:#e8bf6a;">
+                          <br/>
+                      </span>{% endblock %}
+                      <br/>
+                      <br/>
+                  </pre>
+              </div>
+              <br/>
+          </section>
+          <section class="" data-id="d9fcc4ce00f4a68fe80e91b96b43a638">
+              <h2>login form</h2>
+              <div>
+                  <pre style="background-color: rgb(43, 43, 43); color: rgb(169, 183, 198); font-family: &quot;DejaVu Sans Mono&quot;;">
+                      <br/>
+                      <span style="color:#cc7832;">class </span>LoginForm(Form):
+                      <br/>    username = StringField(
+                      <span style="color:#6a8759;">'Username'</span>
+                      <span style="color:#cc7832;">, </span>[validators.DataRequired()])
+                      <br/>    password = PasswordField(
+                      <span style="color:#6a8759;">'Password'</span>
+                      <span style="color:#cc7832;">, </span>[validators.DataRequired()])
+                      <br/>
+                  </pre>
+              </div>
+              <div>
+                  <br/>
+              </div>
+          </section>
+      </div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
