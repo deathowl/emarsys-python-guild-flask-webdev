@@ -7,6 +7,7 @@ flaskapp:
     - .:/usr/src
   environment:
     - APP_SECRET=mydevsecret
+    - ALCHEMY_URL=mysql+mysqlconnector://root:emarroot@mysql:3306/porghub
   expose:
     - "3031"
   command: uwsgi --ini /usr/src/app.ini
@@ -26,6 +27,10 @@ mysql:
     - MYSQL_ROOT_PASSWORD=emarroot
   ports:
    - "3306:3306"
+  command: --init-file /init.sql
+  volumes:
+      - ./init.sql:/init.sql
+
 redis:
   image: redis:latest
   ports:

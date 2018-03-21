@@ -1,6 +1,7 @@
 pytest
 flask
 redis
+mysql-connector>=2.1.6
 flask-admin
 sqlalchemy
 flask-sqlalchemy
