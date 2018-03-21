@@ -22,11 +22,19 @@ class Users(Base):
     password = Column(String(80), nullable=False, default="")
     description = Column(String(255), nullable=True)
     is_active = Column(Boolean, nullable=False, default=True, server_default=db_true())
-    is_admin = Column(Boolean, nullable=False, default=True, server_default=db_false())
+    is_admin = Column(Boolean, nullable=False, default=False, server_default=db_false())
 
     def __str__(self):
-        return self.userid
+        return self.name
 
+    def get_id(self):
+        return self.id
+
+    def is_authenticated(self):
+        return True
+
+    def is_anonymous(self):
+        return False
 
 class Videos(Base):
     __tablename__ = "videos"
@@ -37,6 +45,7 @@ class Videos(Base):
     user = relationship("Users", foreign_keys=[userid])
     path = Column(String(400), nullable=False)
     uploaded_at = Column(DateTime, nullable=False, default=datetime.utcnow, server_default=func.now())
+
 
 
 class Comments(Base):

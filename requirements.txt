@@ -9,3 +9,7 @@ celery
 flask-restful
 uwsgi
 alembic
+passlib
+flask-wtf
+flask-login
+flask-hashing
