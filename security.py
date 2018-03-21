@@ -8,6 +8,9 @@ from models import Users
 login_manager = LoginManager()
 hashing = Hashing()
 
+login_manager.login_view = "user.login"
+
+
 
 @login_manager.user_loader
 def load_user(user_id):

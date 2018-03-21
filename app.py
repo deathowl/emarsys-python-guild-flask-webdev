@@ -6,7 +6,7 @@ from db import db
 import settings
 from flask_admin import Admin
 from adminviews import MyModelView
-from controllers import home, user
+from controllers import home, user, video
 from flask_wtf.csrf import CSRFProtect
 
 
@@ -33,6 +33,7 @@ def setup_app():
                     search_fields=['title']))
     app.register_blueprint(home, url_prefix='/')
     app.register_blueprint(user, url_prefix='/user')
+    app.register_blueprint(video, url_prefix='/video')
 
     return app
 

@@ -1,6 +1,6 @@
 
 from flask import request, session, redirect, render_template, flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 import models
 import settings
@@ -69,6 +69,7 @@ def login():
 
 
 @user.route("/logout", methods=["GET"])
+@login_required
 def logout():
     logout_user()
     return redirect('/')
