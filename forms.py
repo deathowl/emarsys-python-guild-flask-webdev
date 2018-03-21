@@ -1,5 +1,6 @@
-from flask_wtf import Form
+from flask_wtf import Form, FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, validators
+from flask_wtf.file import FileField
 
 
 class RegistrationForm(Form):
@@ -16,3 +17,9 @@ class RegistrationForm(Form):
 class LoginForm(Form):
     username = StringField('Username', [validators.DataRequired()])
     password = PasswordField('Password', [validators.DataRequired()])
+
+
+class UploadForm(FlaskForm):
+    title = StringField('Title', [validators.DataRequired()])
+    description = StringField('Description', [validators.DataRequired()])
+    file = FileField()

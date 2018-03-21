@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+<body>
+	<div class = "container">
+		<h4>Upload</h4>
+		<br>
+		{% from "_formhelpers.html" import render_field %}
+		<form method=post enctype="multipart/form-data">
+			<dl>
+				{{render_field(form.title)}}
+				{{render_field(form.description)}}
+                {{render_field(form.file)}}
+
+                <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+
+			</dl>
+			<p><input type=submit value=Upload></p>
+		</form>
+
+		{% if error %}
+			<p class="error"><strong>Error:</strong>{{error}}</p>
+		{% endif %}
+
+	</div>
+</body>
+
+{% endblock %}
+

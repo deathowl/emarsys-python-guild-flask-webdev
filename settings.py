@@ -11,3 +11,5 @@ if not SECRET:
     print("Specify an app secret in the APP_SECRET env variable")
     sys.exit(3)
 TEST_MODE = str(os.environ.get('TEST_MODE', False)).lower() == 'true'
+UPLOAD_FOLDER = '/static/uploads'
+ALLOWED_EXTENSIONS = set(['flv', 'mp4'])
