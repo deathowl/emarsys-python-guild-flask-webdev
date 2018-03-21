@@ -51,7 +51,6 @@ def login():
     if request.method == "POST" and form.validate():
         username = form.username.data
         password = form.password.data
-        print(form.password.data)
         user = db.session.query(models.Users).filter(models.Users.name == username).first()
 
         if not user or user and not hashing.check_value(user.password, password, settings.SECRET):

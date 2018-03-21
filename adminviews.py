@@ -1,4 +1,5 @@
 from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
 
 import settings
 
@@ -15,5 +16,5 @@ class MyModelView(ModelView):
         if settings.TEST_MODE:
             return True
 
-        return True
+        return current_user.is_authenticated() and current_user.is_admin
 
